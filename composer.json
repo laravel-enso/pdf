@@ -6,9 +6,16 @@
         "pdf",
         "laravel"
     ],
+    "homepage": "https://github.com/laravel-enso/pdf",
     "type": "library",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Ionut Pirvulescu",
+            "email": "ionut.pirvulescu@earthlink.ro",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        },
         {
             "name": "Mihai Ocneanu",
             "email": "mihai.ocneanu@gmail.com",
