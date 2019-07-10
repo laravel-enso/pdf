@@ -1,0 +1,43 @@
+{
+    "name": "laravel-enso/pdf",
+    "description": "PDF for Laravel Enso",
+    "keywords": [
+        "laravel-enso",
+        "pdf",
+        "laravel"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mihai Ocneanu",
+            "email": "mihai.ocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Adrian Ocneanu",
+            "email": "aocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "barryvdh/laravel-snappy": "^0.4.4",
+        "h4cc/wkhtmltopdf-amd64": "^0.12.4",
+        "mikehaertl/php-pdftk": "^0.5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelEnso\\Pdf\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEnso\\Pdf\\AppServiceProvider"
+            ],
+            "aliases": {}
+        }
+    }
+}
