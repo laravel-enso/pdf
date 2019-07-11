@@ -12,7 +12,7 @@ use LaravelEnso\Pdf\app\Exceptions\PdfException;
 class Pdf
 {
     private $pdf;
-    private $watermark;
+    private $pdfTk;
     private $tempFile;
 
     public function __construct()
@@ -21,23 +21,27 @@ class Pdf
         $this->tempFile = $this->tempFile();
     }
 
-    private function factory()
+    public function inline()
     {
-        return App::make('snappy.pdf.wrapper')
-            ->setPaper('a4')
-            ->setOrientation('portrait')
-            ->setOption('margin-top', 5)
-            ->setOption('margin-left', 5)
-            ->setOption('margin-right', 5)
-            ->setOption('margin-bottom', 10)
-            ->setOption('footer-center', 'Pagina [page] din [toPage]');
+        if (isset($this->pdfTk)) {
+            $response = $this->pdfTk->send();
+            $this->cleanUp();
+
+            return $response;
+        }
+
+        return $this->pdf->inline();
     }
 
-    public function watermark($watermark)
+    public function save($filePath)
     {
-        $this->watermark = $watermark;
+        if (isset($this->pdfTk)) {
+            $this->pdfTk->saveAs($filePath);
+            
+            return;
+        }
 
-        return $this;
+        $this->pdf->save($filePath);
     }
 
     public function landscape()
@@ -45,13 +49,6 @@ class Pdf
         $this->pdf->setOrientation('landscape');
 
         return $this;
-    }
-
-    public function inline()
-    {
-        return $this->watermark
-            ? $this->withWatermark()
-            : $this->pdf->inline();
     }
 
     public function setOption(string $option, $value)
@@ -68,28 +65,28 @@ class Pdf
         return $this;
     }
 
-    private function withWatermark()
+    public function withWatermark($watermark)
     {
-        $this->validateWatermarkFile();
+        $this->validateWatermark($watermark);
+        $this->pdf->save($this->tempFilePath(), true);
 
-        try {
-            $this->pdf->save($this->filePath(), true);
-
-            return (new PdfTk($this->filePath()))
-                ->background($this->watermark)
-                ->send();
+        try {           
+            $this->pdfTk = (new PdfTk($this->tempFilePath()))
+                ->background($watermark);
         } catch (Exception $e) {
+            \Log::debug($e);
+            $this->cleanUp();
             throw new PdfException(
                 __('Unexpected exception encountered when writing temporary pdf to disk')
             );
-        } finally {
-            $this->cleanUp();
         }
+        
+        return $this;
     }
 
-    private function validateWatermarkFile()
+    private function validateWatermark($watermark)
     {
-        if (! File::isFile($this->watermark)) {
+        if (! File::isFile($watermark)) {
             throw new PdfException(
                 __('Watermark file is missing from disk')
             );
@@ -101,7 +98,7 @@ class Pdf
         Storage::delete($this->tempFile);
     }
 
-    private function filePath()
+    private function tempFilePath()
     {
         return Storage::path($this->tempFile);
     }
@@ -109,5 +106,17 @@ class Pdf
     private function tempFile()
     {
         return 'temp/'.rand().'.pdf';
+    }
+
+    private function factory()
+    {
+        return App::make('snappy.pdf.wrapper')
+            ->setPaper('a4')
+            ->setOrientation('portrait')
+            ->setOption('margin-top', 5)
+            ->setOption('margin-left', 5)
+            ->setOption('margin-right', 5)
+            ->setOption('margin-bottom', 10)
+            ->setOption('footer-center', 'Pagina [page] din [toPage]');
     }
 }
