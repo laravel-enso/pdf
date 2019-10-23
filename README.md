@@ -8,11 +8,7 @@
 
 This package can work independently of the [Enso](https://github.com/laravel-enso/Enso) ecosystem.
 
-## Installation
-
-`composer require laravel-enso/pdf`
-
-### Usage
+### Installation, Configuration & Usage
 
 Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/backend/pdf.html)
 
