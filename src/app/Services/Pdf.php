@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\App;
 class Pdf
 {
     private $pdf;
-    private $tempFile;
 
     public function __construct()
     {
         $this->pdf = $this->factory();
-        $this->tempFile = $this->tempFile();
     }
 
     public function inline()
@@ -44,11 +42,6 @@ class Pdf
         $this->pdf->loadView($view, $attributes);
 
         return $this;
-    }
-
-    private function tempFile()
-    {
-        return 'temp/'.rand().'.pdf';
     }
 
     private function factory()
