@@ -1,7 +1,6 @@
 <?php
 
-namespace LaravelEnso\Pdf\app\Contracts;
-
+namespace LaravelEnso\Pdf\App\Contracts;
 
 interface GeneratesPdf
 {
