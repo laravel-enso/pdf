@@ -1,20 +1,17 @@
 <?php
 
-namespace LaravelEnso\Pdf\App\Services;
+namespace LaravelEnso\Pdf\Services;
 
 use Barryvdh\Snappy\PdfWrapper;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
 
 class Pdf
 {
     private PdfWrapper $pdf;
-    private string $tempFile;
 
     public function __construct()
     {
         $this->pdf = $this->factory();
-        $this->tempFile = $this->tempFile();
     }
 
     public function inline()
@@ -46,11 +43,6 @@ class Pdf
         $this->pdf->loadView($view, $attributes);
 
         return $this;
-    }
-
-    private function tempFile(): string
-    {
-        return 'temp/'.Str::random().'.pdf';
     }
 
     private function factory(): PdfWrapper
