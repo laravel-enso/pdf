@@ -19,9 +19,9 @@ class Pdf
         return $this->pdf->inline();
     }
 
-    public function save($filePath): void
+    public function save($path): void
     {
-        $this->pdf->save($filePath);
+        $this->pdf->save($path);
     }
 
     public function landscape(): self
@@ -50,10 +50,11 @@ class Pdf
         return App::make('snappy.pdf.wrapper')
             ->setPaper('a4')
             ->setOrientation('portrait')
-            ->setOption('margin-top', 5)
+            ->setOption('margin-top', 10)
             ->setOption('margin-left', 5)
             ->setOption('margin-right', 5)
             ->setOption('margin-bottom', 10)
+            ->setOption('footer-font-size', 8)
             ->setOption('footer-center', __('Page [page] from [toPage]'));
     }
 }
