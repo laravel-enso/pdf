@@ -19,9 +19,14 @@ class Pdf
         return $this->pdf->inline();
     }
 
-    public function save($path): void
+    public function save($filename, $overwrite = false): void
     {
-        $this->pdf->save($path);
+        $this->pdf->save($filename, $overwrite);
+    }
+
+    public function download(string $filename)
+    {
+        return $this->pdf->download($filename);
     }
 
     public function landscape(): self
