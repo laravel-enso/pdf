@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "barryvdh/laravel-snappy": "^0.4.4",
+        "barryvdh/laravel-snappy": "^1.0",
         "php": ">=7.4"
     },
     "autoload": {
