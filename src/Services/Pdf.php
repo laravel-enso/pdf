@@ -3,6 +3,7 @@
 namespace LaravelEnso\Pdf\Services;
 
 use Barryvdh\Snappy\PdfWrapper;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 
 class Pdf
@@ -14,17 +15,22 @@ class Pdf
         $this->pdf = $this->factory();
     }
 
-    public function inline()
+    public function inline(): Response
     {
         return $this->pdf->inline();
     }
 
-    public function save($filename, $overwrite = false): void
+    public function output(): string
     {
-        $this->pdf->save($filename, $overwrite);
+        return $this->pdf->output();
     }
 
-    public function download(string $filename)
+    public function save($filename, $overwrite = false): PdfWrapper
+    {
+        return $this->pdf->save($filename, $overwrite);
+    }
+
+    public function download(string $filename): Response
     {
         return $this->pdf->download($filename);
     }
