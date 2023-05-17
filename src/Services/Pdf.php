@@ -15,9 +15,9 @@ class Pdf
         $this->pdf = $this->factory();
     }
 
-    public function inline(): Response
+    public function inline(string $filename = 'document.pdf'): Response
     {
-        return $this->pdf->inline();
+        return $this->pdf->inline($filename);
     }
 
     public function output(): string
